@@ -1,17 +1,21 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import env from "dotenv";
+
+env.config();
 
 const app = express();
 const port = 3000;
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "Family Travel",
-  password: "10256",
-  port: 5434,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
+
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,16 +28,6 @@ let users = [
   { id: 2, name: "Sagar", color: "powderblue" },
 ];
 
-// async function checkVisisted() {
-//   const result = await db.query("SELECT country_code FROM visited_countries JOIN users ON users.id = user_id WHERE user_id = $1; ",
-//      [currentUserId]
-//   );
-//   let countries = [];
-//   result.rows.forEach((country) => {
-//     countries.push(country.country_code);
-//   });
-//   return countries;
-// }
 
 async function checkVisisted() {
   const result = await db.query(
@@ -92,7 +86,7 @@ app.post("/add", async (req, res) => {
 });
 app.post("/user", async (req, res) => {
   if (req.body.add === "new") {
-    // Handle new user creation
+    
     res.render("new.ejs");
   }else {
     // Handle user selection
@@ -102,8 +96,7 @@ app.post("/user", async (req, res) => {
 });
 
 app.post("/new", async (req, res) => {
-  //Hint: The RETURNING keyword can return the data that was inserted.
-  //https://www.postgresql.org/docs/current/dml-returning.html
+  
   const name = req.body.name;
   const color = req.body.color;
 
