@@ -82,9 +82,9 @@ button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: teal;
-  /* float: right;
-  margin-bottom: -100px; */
+  background: teal; 
+  float: right;
+  margin-bottom: -100px;
   border: 0;
   padding: 15px;
   color: #ffffff;
@@ -448,3 +448,5 @@ button {
     display: none;
   }
 }
+
+
